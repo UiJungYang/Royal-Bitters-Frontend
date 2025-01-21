@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  DOCKER_IMAGE: ghcr.io/${{ secrets.REAL_ACTOR }}/frontend-deploy-nuxt:latest
+  DOCKER_IMAGE: ghcr.io/uijungyang/frontend-deploy-nuxt:latest
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.REAL_ACTOR }} --password-stdin
+          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u uijungyang --password-stdin
           docker buildx create --name builder --use
           docker buildx build --platform linux/amd64,linux/arm64 \
             -t ${{ env.DOCKER_IMAGE }} --push .
@@ -40,7 +40,7 @@ jobs:
           cd /home/ec2-user/drink_alcohol/nuxt/frontend
           docker-compose down
 
-          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.REAL_ACTOR }} --password-stdin
+          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u uijungyang --password-stdin
           docker pull ${{ env.DOCKER_IMAGE }}
 
           docker image prune -f
